@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en" data-theme="neon">
+<head>
+<meta charset="utf-8">
+<title>Rigside overlay</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="css/themes.css">
+<link rel="stylesheet" href="css/overlay.css">
+</head>
+<body>
+  <div id="strip" data-tauri-drag-region>
+    <div class="items" id="items" data-tauri-drag-region></div>
+    <button type="button" id="done" hidden>Done</button>
+  </div>
+  <script>
+    // In a normal browser (not the app), load the fake data so the overlay still works.
+    if (!window.__TAURI__) document.write('<script src="js/mock.js"><\/script>');
+  </script>
+  <script src="js/overlay.js"></script>
+</body>
+</html>

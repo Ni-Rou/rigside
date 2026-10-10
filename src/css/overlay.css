@@ -1,0 +1,92 @@
+/* The overlay: one compact strip in the theme's colours, on a transparent window. */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html,
+body {
+  background: transparent !important;
+  overflow: hidden;
+  -webkit-user-select: none;
+  user-select: none;
+}
+body {
+  font: 14px/1 var(--fb);
+  color: var(--text);
+}
+#strip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 12px;
+  margin: 4px;
+  background: color-mix(in srgb, var(--bg) 78%, transparent);
+  border: 1px solid var(--card-border);
+  border-radius: 999px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+  white-space: nowrap;
+}
+.items {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.it {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+}
+.it b {
+  font-family: var(--fd);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--dim);
+  font-weight: 700;
+}
+.it span {
+  font-family: var(--fm);
+  font-size: 14px;
+}
+.it .t {
+  color: var(--dim);
+}
+.it .t.warm {
+  color: var(--warm);
+}
+.it .t.hot {
+  color: var(--danger);
+}
+.it.track span {
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--fb);
+  font-size: 13px;
+}
+.sep {
+  width: 1px;
+  height: 14px;
+  background: var(--card-border);
+}
+body.edit #strip {
+  border: 1px dashed var(--accent);
+  cursor: move;
+}
+/* In move mode every press lands on the drag region itself, not on the figures inside it. */
+body.edit .items,
+body.edit .items * {
+  pointer-events: none;
+}
+#done {
+  font: 600 12px var(--fb);
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 0;
+  background: var(--accent);
+  color: var(--bg);
+  cursor: pointer;
+}
+[data-theme="wasteland"] body {
+  text-shadow: 0 0 4px rgba(77, 255, 106, 0.5);
+}

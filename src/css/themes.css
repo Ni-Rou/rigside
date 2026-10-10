@@ -1,0 +1,836 @@
+/* The themes. Each one sets the same variables, with any extra touches after its block.
+   --fd is the display font, --fb body text, --fm numbers. --veil darkens the scene behind the UI. */
+
+/* Minimal: no scene, lowest CPU */
+[data-theme="minimal"] {
+  --bg: #05080f;
+  --text: #d6e2f0;
+  --dim: #6b7d95;
+  --accent: #5eb3ff;
+  --accent-soft: rgba(94, 179, 255, 0.13);
+  --accent-line: rgba(94, 179, 255, 0.3);
+  --warm: #ffb547;
+  --danger: #ff5c6c;
+  --track: rgba(94, 179, 255, 0.14);
+  --sun: #ffd166;
+  --moon: #c9d6ea;
+  --rain: #7dd3fc;
+  --card: #0a101c;
+  --card-border: rgba(94, 179, 255, 0.12);
+  --bar-bg: #070b14;
+  --fd: "Rajdhani", sans-serif;
+  --fb: "Inter", sans-serif;
+  --fm: "JetBrains Mono", monospace;
+}
+
+/* Neon City: rain-slick cyberpunk megacity */
+[data-theme="neon"] {
+  --bg: #07040e;
+  --text: #f2ecff;
+  --dim: #9a8fb8;
+  --accent: #fcee0a;
+  --accent-soft: rgba(252, 238, 10, 0.12);
+  --accent-line: rgba(252, 238, 10, 0.45);
+  --warm: #02d7f2;
+  --danger: #ff2a4f;
+  --track: rgba(2, 215, 242, 0.18);
+  --sun: #fcee0a;
+  --moon: #e0d8ff;
+  --rain: #02d7f2;
+  --card: rgba(10, 6, 20, 0.62);
+  --card-border: rgba(2, 215, 242, 0.35);
+  --card-blur: 6px;
+  --bar-bg: rgba(8, 4, 16, 0.86);
+  --veil: linear-gradient(180deg, rgba(7, 4, 14, 0.15), rgba(7, 4, 14, 0.45));
+  --fd: "Orbitron", sans-serif;
+  --fb: "Chakra Petch", sans-serif;
+  --fm: "Share Tech Mono", monospace;
+  --radius: 0;
+  --title-track: 0.14em;
+  --clock-weight: 700;
+  --clock-shadow:
+    0.12rem 0 0 rgba(255, 42, 79, 0.75), -0.12rem 0 0 rgba(2, 215, 242, 0.75), 0 0 1.6rem rgba(252, 238, 10, 0.35);
+}
+/* notched panels: the top-right corner cut off */
+[data-theme="neon"] .card {
+  clip-path: polygon(0 0, calc(100% - 0.9rem) 0, 100% 0.9rem, 100% 100%, 0 100%);
+  border-left: 3px solid var(--accent);
+}
+[data-theme="neon"] .card-h {
+  color: var(--warm);
+}
+[data-theme="neon"] .card-h::before {
+  content: "// ";
+  color: var(--danger);
+}
+[data-theme="neon"] .tabbtn.active {
+  text-shadow: 0 0 0.6rem var(--accent);
+}
+[data-theme="neon"] .clock {
+  color: var(--accent);
+}
+
+/* Wasteland: green phosphor terminal */
+[data-theme="wasteland"] {
+  --bg: #020602;
+  --text: #9dff9d;
+  --dim: #3f9a4a;
+  --accent: #4dff6a;
+  --accent-soft: rgba(77, 255, 106, 0.1);
+  --accent-line: rgba(77, 255, 106, 0.45);
+  --warm: #d6ff4d;
+  --danger: #ffb000;
+  --track: rgba(77, 255, 106, 0.15);
+  --sun: #b8ff7a;
+  --moon: #9dff9d;
+  --rain: #4dff6a;
+  --card: rgba(2, 12, 3, 0.78);
+  --card-border: rgba(77, 255, 106, 0.4);
+  --bar-bg: rgba(1, 8, 2, 0.92);
+  --veil: linear-gradient(180deg, rgba(2, 6, 2, 0.1), rgba(2, 6, 2, 0.5));
+  --fd: "VT323", monospace;
+  --fb: "Share Tech Mono", monospace;
+  --fm: "VT323", monospace;
+  --radius: 0.15rem;
+  --title-track: 0.12em;
+  --clock-weight: 400;
+  --clock-shadow: 0 0 0.5rem rgba(77, 255, 106, 0.8), 0 0 1.8rem rgba(77, 255, 106, 0.35);
+}
+[data-theme="wasteland"] body {
+  text-shadow: 0 0 0.35rem rgba(77, 255, 106, 0.45);
+}
+[data-theme="wasteland"] .card {
+  border-width: 2px;
+  box-shadow: inset 0 0 1.4rem rgba(77, 255, 106, 0.08);
+}
+[data-theme="wasteland"] .card-h {
+  color: var(--bg);
+  background: var(--accent);
+  display: inline-block;
+  padding: 0 0.4rem;
+  text-shadow: none;
+  font-size: 1rem;
+}
+[data-theme="wasteland"] .card-h .sub {
+  color: var(--bg);
+}
+[data-theme="wasteland"] .tabbtn {
+  font-size: 1rem;
+}
+[data-theme="wasteland"] .tabbtn.active {
+  background: var(--accent);
+  color: var(--bg);
+  text-shadow: none;
+}
+[data-theme="wasteland"] #tab-ink {
+  display: none;
+}
+/* static scan lines over the whole UI (no animation; the scene animates the rolling band) */
+[data-theme="wasteland"] #veil {
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.22) 0 1px, transparent 1px 3px), var(--veil);
+}
+
+/* Frostpeak: snow-capped mountains, aurora nights */
+[data-theme="frostpeak"] {
+  --bg: #0a1420;
+  --text: #eef5ff;
+  --dim: #9fb3c8;
+  --accent: #9ad8ff;
+  --accent-soft: rgba(154, 216, 255, 0.14);
+  --accent-line: rgba(154, 216, 255, 0.4);
+  --warm: #ffcf7a;
+  --danger: #ff7a6b;
+  --track: rgba(238, 245, 255, 0.16);
+  --sun: #ffe39a;
+  --moon: #eef5ff;
+  --rain: #9ad8ff;
+  --card: rgba(16, 28, 44, 0.5);
+  --card-border: rgba(238, 245, 255, 0.22);
+  --card-blur: 10px;
+  --bar-bg: rgba(10, 20, 32, 0.7);
+  --veil: linear-gradient(180deg, rgba(5, 10, 18, 0) 40%, rgba(5, 10, 18, 0.35));
+  --fd: "Fraunces", serif;
+  --fb: "Lora", serif;
+  --fm: "Fraunces", serif;
+  --radius: 0.9rem;
+  --title-track: 0.1em;
+  --clock-weight: 600;
+  --clock-shadow: 0 0.15rem 1.2rem rgba(0, 10, 25, 0.6);
+  --card-shadow: 0 0.4rem 1.6rem rgba(0, 8, 20, 0.35);
+}
+[data-theme="frostpeak"] .card-h {
+  color: var(--accent);
+  font-variant: small-caps;
+  text-transform: none;
+  font-size: 0.95rem;
+}
+
+/* Ringworld: soldier's visor HUD under an orbital ring */
+[data-theme="ringworld"] {
+  --bg: #061018;
+  --text: #e6f6ff;
+  --dim: #8fb0c0;
+  --accent: #4fe3d0;
+  --accent-soft: rgba(79, 227, 208, 0.14);
+  --accent-line: rgba(79, 227, 208, 0.45);
+  --warm: #ffb43c;
+  --danger: #ff5a4a;
+  --track: rgba(79, 227, 208, 0.16);
+  --sun: #fff6d6;
+  --moon: #dfe9f5;
+  --rain: #8fd6ff;
+  --card: rgba(6, 18, 28, 0.58);
+  --card-border: rgba(79, 227, 208, 0.25);
+  --card-blur: 6px;
+  --bar-bg: rgba(4, 12, 20, 0.82);
+  --veil: linear-gradient(180deg, rgba(4, 10, 18, 0.05), rgba(4, 10, 18, 0.35));
+  --fd: "Rajdhani", sans-serif;
+  --fb: "Exo 2", sans-serif;
+  --fm: "Rajdhani", sans-serif;
+  --radius: 0.2rem;
+  --title-track: 0.16em;
+  --clock-weight: 600;
+  --clock-shadow: 0 0 1rem rgba(79, 227, 208, 0.45), 0 0.1rem 0.4rem rgba(0, 0, 0, 0.6);
+}
+/* corner brackets instead of a full border, like a helmet display */
+[data-theme="ringworld"] .card {
+  border-color: transparent;
+  background:
+    linear-gradient(var(--accent), var(--accent)) top left / 1rem 2px,
+    linear-gradient(var(--accent), var(--accent)) top left / 2px 1rem,
+    linear-gradient(var(--accent), var(--accent)) bottom right / 1rem 2px,
+    linear-gradient(var(--accent), var(--accent)) bottom right / 2px 1rem,
+    var(--card);
+  background-repeat: no-repeat;
+}
+[data-theme="ringworld"] .card-h {
+  color: var(--accent);
+}
+[data-theme="ringworld"] .clock {
+  color: var(--text);
+}
+[data-theme="ringworld"] .tabbtn.active {
+  text-shadow: 0 0 0.6rem var(--accent);
+}
+
+/* Golden Tree: dark gilt and parchment */
+[data-theme="goldentree"] {
+  --bg: #120e0a;
+  --text: #f4ead6;
+  --dim: #b8a684;
+  --accent: #e8c26a;
+  --accent-soft: rgba(232, 194, 106, 0.14);
+  --accent-line: rgba(232, 194, 106, 0.5);
+  --warm: #ffd98a;
+  --danger: #e0644c;
+  --track: rgba(232, 194, 106, 0.18);
+  --sun: #ffe3a0;
+  --moon: #f4ead6;
+  --rain: #b8c8d8;
+  --card: rgba(20, 15, 10, 0.66);
+  --card-border: rgba(232, 194, 106, 0.35);
+  --card-blur: 4px;
+  --bar-bg: rgba(16, 12, 8, 0.86);
+  --veil: linear-gradient(180deg, rgba(10, 8, 6, 0) 30%, rgba(10, 8, 6, 0.4));
+  --fd: "Fraunces", serif;
+  --fb: "Lora", serif;
+  --fm: "Fraunces", serif;
+  --radius: 0.15rem;
+  --title-track: 0.12em;
+  --clock-weight: 400;
+  --clock-shadow: 0 0 1.4rem rgba(255, 200, 110, 0.45), 0 0.1rem 0.5rem rgba(0, 0, 0, 0.6);
+}
+/* a thin inner gilt rule on every panel */
+[data-theme="goldentree"] .card {
+  box-shadow:
+    inset 0 0 0 3px rgba(20, 15, 10, 0.66),
+    inset 0 0 0 4px rgba(232, 194, 106, 0.28);
+}
+[data-theme="goldentree"] .card-h {
+  color: var(--accent);
+  font-variant: small-caps;
+  text-transform: none;
+  font-size: 0.95rem;
+  letter-spacing: 0.14em;
+}
+[data-theme="goldentree"] .clock {
+  color: #fff3d6;
+}
+[data-theme="goldentree"] .tabbtn.active {
+  text-shadow: 0 0 0.7rem rgba(255, 200, 110, 0.7);
+}
+
+/* Overworld: classic RPG menu windows */
+[data-theme="overworld"] {
+  --bg: #0c1640;
+  --text: #ffffff;
+  --dim: #b8c6f0;
+  --accent: #ffe066;
+  --accent-soft: rgba(255, 224, 102, 0.16);
+  --accent-line: rgba(255, 224, 102, 0.6);
+  --warm: #ff9f43;
+  --danger: #ff5c5c;
+  --track: rgba(255, 255, 255, 0.18);
+  --sun: #ffe066;
+  --moon: #f2f0d8;
+  --rain: #8fc7ff;
+  --card: linear-gradient(180deg, rgba(40, 70, 190, 0.92), rgba(16, 30, 110, 0.92));
+  --card-border: #ffffff;
+  --bar-bg: #0c1640;
+  --fd: "Pixelify Sans", sans-serif;
+  --fb: "Pixelify Sans", sans-serif;
+  --fm: "Silkscreen", "Pixelify Sans", monospace;
+  --radius: 0.45rem;
+  --title-track: 0.06em;
+  --clock-weight: 700;
+  --clock-shadow: 0.2rem 0.2rem 0 #0c1640;
+}
+/* the RPG window: white frame with a dark outline, gradient fill */
+[data-theme="overworld"] .card {
+  background: var(--card);
+  border: 3px solid #fff;
+  box-shadow:
+    0 0 0 2px #0c1640,
+    0.25rem 0.25rem 0 2px rgba(0, 0, 0, 0.35);
+}
+[data-theme="overworld"] .card-h {
+  color: var(--accent);
+}
+[data-theme="overworld"] .clock {
+  color: #fff;
+}
+[data-theme="overworld"] .date {
+  text-shadow: 0.12rem 0.12rem 0 #0c1640;
+}
+[data-theme="overworld"] #tabbar {
+  border-top: 3px solid #fff;
+}
+[data-theme="overworld"] .tabbtn.active::before {
+  content: "▶";
+  position: absolute;
+  left: 0.5rem;
+  color: var(--accent);
+}
+[data-theme="overworld"] .np-title,
+[data-theme="overworld"] .np-artist {
+  text-shadow: 0.12rem 0.12rem 0 #0c1640;
+}
+
+/* Deep: a diver's handheld, glassy and aqua */
+[data-theme="deep"] {
+  --bg: #021622;
+  --text: #e8fbff;
+  --dim: #8cc0cc;
+  --accent: #46e6d2;
+  --accent-soft: rgba(70, 230, 210, 0.15);
+  --accent-line: rgba(70, 230, 210, 0.45);
+  --warm: #ffc061;
+  --danger: #ff6b6b;
+  --track: rgba(140, 220, 240, 0.18);
+  --sun: #ffe9a8;
+  --moon: #e8fbff;
+  --rain: #8fe0ff;
+  --card: rgba(4, 30, 46, 0.5);
+  --card-border: rgba(140, 230, 255, 0.3);
+  --card-blur: 10px;
+  --bar-bg: rgba(2, 20, 32, 0.75);
+  --veil: linear-gradient(180deg, rgba(0, 10, 20, 0), rgba(0, 10, 20, 0.3));
+  --fd: "Exo 2", sans-serif;
+  --fb: "Exo 2", sans-serif;
+  --fm: "IBM Plex Mono", monospace;
+  --radius: 1rem;
+  --title-track: 0.1em;
+  --clock-weight: 600;
+  --clock-shadow: 0 0 1.2rem rgba(70, 230, 210, 0.4), 0 0.1rem 0.5rem rgba(0, 0, 0, 0.5);
+  --card-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 0.4rem 1.4rem rgba(0, 10, 20, 0.35);
+}
+[data-theme="deep"] .card-h {
+  color: var(--accent);
+}
+[data-theme="deep"] .tabbtn.active {
+  text-shadow: 0 0 0.6rem var(--accent);
+}
+
+/* Hellforge: gunmetal plates, hazard stripes, molten orange */
+[data-theme="hellforge"] {
+  --bg: #120706;
+  --text: #f2e2d6;
+  --dim: #a8877a;
+  --accent: #ff6a1a;
+  --accent-soft: rgba(255, 106, 26, 0.15);
+  --accent-line: rgba(255, 106, 26, 0.5);
+  --warm: #ffc040;
+  --danger: #ff2e2e;
+  --track: rgba(255, 106, 26, 0.16);
+  --sun: #ffe0c0;
+  --moon: #e8c8b8;
+  --rain: #b0a0a0;
+  --card: rgba(26, 18, 18, 0.72);
+  --card-border: rgba(255, 120, 60, 0.28);
+  --card-blur: 4px;
+  --bar-bg: rgba(18, 10, 10, 0.9);
+  --veil: linear-gradient(180deg, rgba(14, 4, 4, 0.05), rgba(14, 4, 4, 0.45));
+  --fd: "Oswald", sans-serif;
+  --fb: "Rajdhani", sans-serif;
+  --fm: "JetBrains Mono", monospace;
+  --radius: 0.15rem;
+  --title-track: 0.14em;
+  --clock-weight: 600;
+  --clock-shadow: 0 0 1.2rem rgba(255, 90, 20, 0.5), 0 0.12rem 0 rgba(0, 0, 0, 0.8);
+}
+/* a hazard stripe along the top of every panel, rivets in the corners */
+[data-theme="hellforge"] .card {
+  border-top: 0;
+  background:
+    repeating-linear-gradient(135deg, #ffb020 0 6px, #1a1010 6px 12px) top / 100% 4px no-repeat,
+    radial-gradient(circle, rgba(255, 200, 160, 0.45) 0 1.5px, transparent 2px) 6px 10px / 1px 1px no-repeat,
+    var(--card);
+  padding-top: calc(0.75rem + 4px);
+}
+[data-theme="hellforge"] .card-h {
+  color: var(--warm);
+}
+[data-theme="hellforge"] .clock {
+  color: #fff1e6;
+}
+[data-theme="hellforge"] .tabbtn.active {
+  text-shadow: 0 0 0.7rem rgba(255, 90, 20, 0.8);
+}
+
+/* Last City: clean white panels, gold trim, a guardian's HUD */
+[data-theme="lastcity"] {
+  --bg: #0e1220;
+  --text: #f4f2ec;
+  --dim: #a8adbc;
+  --accent: #f2c464;
+  --accent-soft: rgba(242, 196, 100, 0.15);
+  --accent-line: rgba(242, 196, 100, 0.5);
+  --warm: #ff9a5a;
+  --danger: #ff5a5a;
+  --track: rgba(244, 242, 236, 0.16);
+  --sun: #fff0c8;
+  --moon: #e8eef8;
+  --rain: #b8cce8;
+  --card: rgba(18, 22, 36, 0.55);
+  --card-border: rgba(244, 242, 236, 0.28);
+  --card-blur: 8px;
+  --bar-bg: rgba(14, 18, 30, 0.8);
+  --veil: linear-gradient(180deg, rgba(10, 12, 22, 0) 30%, rgba(10, 12, 22, 0.35));
+  --fd: "Rajdhani", sans-serif;
+  --fb: "Inter", sans-serif;
+  --fm: "Rajdhani", sans-serif;
+  --radius: 0.25rem;
+  --title-track: 0.2em;
+  --clock-weight: 500;
+  --clock-shadow: 0 0.1rem 1rem rgba(0, 0, 0, 0.45);
+}
+/* a thin gold rule along the top of each panel, a small chevron marker in the heading */
+[data-theme="lastcity"] .card {
+  border-top: 2px solid var(--accent);
+}
+[data-theme="lastcity"] .card-h {
+  color: var(--text);
+}
+[data-theme="lastcity"] .card-h::before {
+  content: "▸  ";
+  color: var(--accent);
+}
+[data-theme="lastcity"] .clock {
+  color: #fffaf0;
+  font-weight: 500;
+}
+
+/* Relay: a starship's console, blue holo panels and orange highlights */
+[data-theme="relay"] {
+  --bg: #04060e;
+  --text: #e4ecff;
+  --dim: #8492b8;
+  --accent: #5ab4ff;
+  --accent-soft: rgba(90, 180, 255, 0.15);
+  --accent-line: rgba(90, 180, 255, 0.45);
+  --warm: #ffa040;
+  --danger: #ff5a5a;
+  --track: rgba(90, 180, 255, 0.16);
+  --sun: #fff0d0;
+  --moon: #e4ecff;
+  --rain: #8ac8ff;
+  --card: rgba(8, 14, 32, 0.55);
+  --card-border: rgba(90, 180, 255, 0.3);
+  --card-blur: 6px;
+  --bar-bg: rgba(6, 10, 22, 0.82);
+  --veil: linear-gradient(180deg, rgba(2, 4, 10, 0.05), rgba(2, 4, 10, 0.3));
+  --fd: "Exo 2", sans-serif;
+  --fb: "Exo 2", sans-serif;
+  --fm: "IBM Plex Mono", monospace;
+  --radius: 0.6rem;
+  --title-track: 0.16em;
+  --clock-weight: 400;
+  --clock-shadow: 0 0 1.2rem rgba(90, 180, 255, 0.45);
+}
+/* holo panels: a soft inner glow and an orange accent on the heading */
+[data-theme="relay"] .card {
+  box-shadow: inset 0 0 1.2rem rgba(90, 180, 255, 0.08);
+  border-radius: 0.6rem 0.15rem 0.6rem 0.15rem;
+}
+[data-theme="relay"] .card-h {
+  color: var(--warm);
+}
+[data-theme="relay"] .clock {
+  color: #eaf4ff;
+}
+
+/* Starfarer: an explorer's visor, bright and friendly */
+[data-theme="starfarer"] {
+  --bg: #0c0a24;
+  --text: #fff8f0;
+  --dim: #b8b0d8;
+  --accent: #ffb03a;
+  --accent-soft: rgba(255, 176, 58, 0.16);
+  --accent-line: rgba(255, 176, 58, 0.5);
+  --warm: #6af0d8;
+  --danger: #ff5a7a;
+  --track: rgba(255, 248, 240, 0.18);
+  --sun: #fffbe0;
+  --moon: #f0f0ff;
+  --rain: #a8e8ff;
+  --card: rgba(20, 14, 44, 0.5);
+  --card-border: rgba(255, 248, 240, 0.26);
+  --card-blur: 8px;
+  --bar-bg: rgba(16, 12, 36, 0.78);
+  --veil: linear-gradient(180deg, rgba(10, 8, 30, 0) 35%, rgba(10, 8, 30, 0.35));
+  --fd: "Exo 2", sans-serif;
+  --fb: "Nunito", sans-serif;
+  --fm: "Exo 2", sans-serif;
+  --radius: 1.1rem;
+  --title-track: 0.12em;
+  --clock-weight: 800;
+  --clock-shadow: 0 0.12rem 0.9rem rgba(0, 0, 0, 0.4);
+}
+[data-theme="starfarer"] .card {
+  border-width: 2px;
+}
+[data-theme="starfarer"] .card-h {
+  color: var(--accent);
+}
+[data-theme="starfarer"] .clock {
+  color: #fffaf0;
+}
+
+/* The Zone: a scavenger's PDA, olive and rust, a bit worn */
+[data-theme="zone"] {
+  --bg: #12140f;
+  --text: #e2e2d0;
+  --dim: #9a9a80;
+  --accent: #c8b040;
+  --accent-soft: rgba(200, 176, 64, 0.14);
+  --accent-line: rgba(200, 176, 64, 0.45);
+  --warm: #d88a40;
+  --danger: #e04a3a;
+  --track: rgba(226, 226, 208, 0.14);
+  --sun: #f0e8c8;
+  --moon: #d8dcd0;
+  --rain: #a8b0a0;
+  --card: rgba(22, 24, 18, 0.7);
+  --card-border: rgba(200, 190, 140, 0.25);
+  --card-blur: 3px;
+  --bar-bg: rgba(18, 20, 14, 0.9);
+  --veil: linear-gradient(180deg, rgba(10, 12, 8, 0) 35%, rgba(10, 12, 8, 0.4));
+  --fd: "Oswald", sans-serif;
+  --fb: "IBM Plex Mono", monospace;
+  --fm: "IBM Plex Mono", monospace;
+  --radius: 0.1rem;
+  --title-track: 0.12em;
+  --clock-weight: 500;
+  --clock-shadow: 0 0.1rem 0.6rem rgba(0, 0, 0, 0.6);
+}
+[data-theme="zone"] .card {
+  border-style: solid dashed solid solid;
+}
+[data-theme="zone"] .card-h {
+  color: var(--accent);
+}
+[data-theme="zone"] .card-h::before {
+  content: "■  ";
+  color: var(--warm);
+}
+[data-theme="zone"] .clock {
+  color: #ecebd8;
+}
+
+/* Sanctum: black iron, blood red and old gold, a gothic book hand */
+[data-theme="sanctum"] {
+  --bg: #0c0608;
+  --text: #ecdcd0;
+  --dim: #a08880;
+  --accent: #d83a2a;
+  --accent-soft: rgba(216, 58, 42, 0.15);
+  --accent-line: rgba(216, 58, 42, 0.5);
+  --warm: #d8a850;
+  --danger: #ff4a3a;
+  --track: rgba(216, 58, 42, 0.18);
+  --sun: #f0c8b0;
+  --moon: #e05040;
+  --rain: #b8a0a8;
+  --card: rgba(16, 8, 10, 0.78);
+  --card-border: rgba(216, 168, 80, 0.3);
+  --bar-bg: rgba(12, 6, 8, 0.92);
+  --veil: linear-gradient(180deg, rgba(10, 4, 6, 0) 35%, rgba(10, 4, 6, 0.45));
+  --fd: "Fraunces", serif;
+  --fb: "Lora", serif;
+  --fm: "Fraunces", serif;
+  --radius: 0;
+  --title-track: 0.16em;
+  --clock-weight: 700;
+  --clock-shadow: 0 0 1rem rgba(216, 58, 42, 0.45), 0 0.12rem 0 #000;
+}
+/* iron frame with gold corner pieces */
+[data-theme="sanctum"] .card {
+  border: 2px solid #2a1a18;
+  background:
+    linear-gradient(var(--warm), var(--warm)) top left / 0.7rem 2px no-repeat,
+    linear-gradient(var(--warm), var(--warm)) top left / 2px 0.7rem no-repeat,
+    linear-gradient(var(--warm), var(--warm)) top right / 0.7rem 2px no-repeat,
+    linear-gradient(var(--warm), var(--warm)) top right / 2px 0.7rem no-repeat,
+    linear-gradient(var(--warm), var(--warm)) bottom left / 0.7rem 2px no-repeat,
+    linear-gradient(var(--warm), var(--warm)) bottom left / 2px 0.7rem no-repeat,
+    linear-gradient(var(--warm), var(--warm)) bottom right / 0.7rem 2px no-repeat,
+    linear-gradient(var(--warm), var(--warm)) bottom right / 2px 0.7rem no-repeat,
+    var(--card);
+}
+[data-theme="sanctum"] .card-h {
+  color: var(--warm);
+  font-variant: small-caps;
+  text-transform: none;
+  font-size: 0.95rem;
+}
+[data-theme="sanctum"] .clock {
+  color: #f4e4d4;
+}
+
+/* Tavern: wood, brass and parchment, a friendly card-game look */
+[data-theme="tavern"] {
+  --bg: #1a0e06;
+  --text: #f6e8cc;
+  --dim: #c0a078;
+  --accent: #f0b848;
+  --accent-soft: rgba(240, 184, 72, 0.16);
+  --accent-line: rgba(240, 184, 72, 0.5);
+  --warm: #ff8a3a;
+  --danger: #e04a3a;
+  --track: rgba(246, 232, 204, 0.16);
+  --sun: #fff0b0;
+  --moon: #f6f0d8;
+  --rain: #b8c8e0;
+  --card: rgba(40, 22, 10, 0.72);
+  --card-border: rgba(240, 184, 72, 0.4);
+  --card-blur: 2px;
+  --bar-bg: rgba(30, 16, 8, 0.92);
+  --veil: linear-gradient(180deg, rgba(20, 10, 4, 0) 40%, rgba(20, 10, 4, 0.35));
+  --fd: "Fraunces", serif;
+  --fb: "Nunito", sans-serif;
+  --fm: "Fraunces", serif;
+  --radius: 0.7rem;
+  --title-track: 0.08em;
+  --clock-weight: 700;
+  --clock-shadow: 0 0.15rem 0 rgba(0, 0, 0, 0.6), 0 0 1rem rgba(255, 160, 60, 0.35);
+}
+/* a brass rim and a darker wood inset */
+[data-theme="tavern"] .card {
+  border: 2px solid #8a6020;
+  box-shadow:
+    inset 0 0 0 2px rgba(20, 10, 4, 0.6),
+    inset 0 0 1.2rem rgba(0, 0, 0, 0.35);
+}
+[data-theme="tavern"] .card-h {
+  color: var(--accent);
+  text-transform: none;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+}
+[data-theme="tavern"] .clock {
+  color: #fff0d0;
+}
+
+/* Pocket: the whole UI in the same four greens, square and chunky */
+[data-theme="pocket"] {
+  --bg: #9bbc0f;
+  --text: #0f380f;
+  --dim: #306230;
+  --accent: #0f380f;
+  --accent-soft: rgba(15, 56, 15, 0.14);
+  --accent-line: rgba(15, 56, 15, 0.6);
+  --warm: #0f380f;
+  --danger: #0f380f;
+  --track: rgba(48, 98, 48, 0.35);
+  --sun: #0f380f;
+  --moon: #0f380f;
+  --rain: #306230;
+  --card: #9bbc0f;
+  --card-border: #0f380f;
+  --bar-bg: #8bac0f;
+  --fd: "Pixelify Sans", sans-serif;
+  --fb: "Pixelify Sans", sans-serif;
+  --fm: "Silkscreen", "Pixelify Sans", monospace;
+  --radius: 0;
+  --title-track: 0.06em;
+  --clock-weight: 700;
+  --clock-shadow: 0.18rem 0.18rem 0 #8bac0f;
+}
+[data-theme="pocket"] .card {
+  border: 3px solid #0f380f;
+  box-shadow: 0.25rem 0.25rem 0 #306230;
+}
+/* clock and date sit on the scene's sky, light by day and dark at night: light fill, dark pixel outline */
+[data-theme="pocket"] .clock,
+[data-theme="pocket"] .date {
+  color: #9bbc0f;
+}
+[data-theme="pocket"] .clock {
+  text-shadow:
+    3px 0 #0f380f,
+    -3px 0 #0f380f,
+    0 3px #0f380f,
+    0 -3px #0f380f,
+    3px 3px #0f380f,
+    -3px -3px #0f380f,
+    3px -3px #0f380f,
+    -3px 3px #0f380f,
+    0.3rem 0.3rem 0 #306230;
+}
+[data-theme="pocket"] .date {
+  text-shadow:
+    2px 0 #0f380f,
+    -2px 0 #0f380f,
+    0 2px #0f380f,
+    0 -2px #0f380f,
+    2px 2px #0f380f,
+    -2px -2px #0f380f,
+    2px -2px #0f380f,
+    -2px 2px #0f380f;
+}
+[data-theme="pocket"] #tabbar {
+  border-top: 3px solid #0f380f;
+}
+[data-theme="pocket"] .tabbtn {
+  color: #306230;
+}
+[data-theme="pocket"] .tabbtn.active {
+  color: #0f380f;
+  background: #9bbc0f;
+}
+
+/* Arcade: black cabinets, neon edges, a marquee header */
+[data-theme="arcade"] {
+  --bg: #0e0618;
+  --text: #f4ecff;
+  --dim: #a898c8;
+  --accent: #ff4fa8;
+  --accent-soft: rgba(255, 79, 168, 0.16);
+  --accent-line: rgba(255, 79, 168, 0.6);
+  --warm: #ffd84f;
+  --danger: #ff4f6a;
+  --track: rgba(244, 236, 255, 0.16);
+  --sun: #ffd84f;
+  --moon: #e8ecff;
+  --rain: #4fc8ff;
+  --card: rgba(10, 6, 20, 0.82);
+  --card-border: #4fc8ff;
+  --bar-bg: rgba(10, 6, 20, 0.94);
+  --fd: "Silkscreen", "Pixelify Sans", monospace;
+  --fb: "Pixelify Sans", sans-serif;
+  --fm: "Silkscreen", "Pixelify Sans", monospace;
+  --radius: 0.2rem;
+  --title-track: 0.08em;
+  --clock-weight: 700;
+  --clock-shadow: 0 0 0.6rem #ff4fa8, 0.2rem 0.2rem 0 #4a0a30;
+}
+[data-theme="arcade"] .card {
+  border: 2px solid #4fc8ff;
+  box-shadow:
+    0 0 0.6rem rgba(79, 200, 255, 0.45),
+    inset 0 0 0.8rem rgba(79, 200, 255, 0.12);
+}
+[data-theme="arcade"] .card-h {
+  color: #ffd84f;
+  text-shadow: 0 0 0.4rem rgba(255, 216, 79, 0.6);
+}
+/* the neon sign can sit behind the clock: a dark outline under the glow keeps it readable */
+[data-theme="arcade"] .clock {
+  color: #ffe0f2;
+  text-shadow:
+    3px 0 #1a0414,
+    -3px 0 #1a0414,
+    0 3px #1a0414,
+    0 -3px #1a0414,
+    3px 3px #1a0414,
+    -3px -3px #1a0414,
+    3px -3px #1a0414,
+    -3px 3px #1a0414,
+    0 0 0.9rem #ff4fa8;
+}
+[data-theme="arcade"] .date {
+  text-shadow:
+    2px 0 #1a0414,
+    -2px 0 #1a0414,
+    0 2px #1a0414,
+    0 -2px #1a0414,
+    2px 2px #1a0414,
+    -2px -2px #1a0414;
+}
+[data-theme="arcade"] #tabbar {
+  border-top: 2px solid #ff4fa8;
+  box-shadow: 0 -0.3rem 0.8rem rgba(255, 79, 168, 0.25);
+}
+[data-theme="arcade"] .tabbtn.active {
+  color: #ff7ac0;
+  text-shadow: 0 0 0.5rem #ff4fa8;
+}
+
+/* Blocks: stone-grey inventory panels with bevelled edges */
+[data-theme="blocks"] {
+  --bg: #1c2856;
+  --text: #ffffff;
+  --dim: #c8ccd8;
+  --accent: #7fd65a;
+  --accent-soft: rgba(127, 214, 90, 0.18);
+  --accent-line: rgba(127, 214, 90, 0.6);
+  --warm: #ffc84a;
+  --danger: #ff5a4a;
+  --track: rgba(0, 0, 0, 0.35);
+  --sun: #ffe070;
+  --moon: #e4e8f4;
+  --rain: #9cc4ff;
+  --card: rgba(60, 60, 66, 0.86);
+  --card-border: #1a1a1e;
+  --bar-bg: rgba(48, 48, 54, 0.95);
+  --fd: "Pixelify Sans", sans-serif;
+  --fb: "Pixelify Sans", sans-serif;
+  --fm: "Silkscreen", "Pixelify Sans", monospace;
+  --radius: 0;
+  --title-track: 0.04em;
+  --clock-weight: 700;
+  --clock-shadow: 0.22rem 0.22rem 0 #2a2a30;
+}
+/* raised stone-button bevel: light top-left, dark bottom-right */
+[data-theme="blocks"] .card {
+  border: 2px solid #1a1a1e;
+  box-shadow:
+    inset 3px 3px 0 rgba(255, 255, 255, 0.22),
+    inset -3px -3px 0 rgba(0, 0, 0, 0.4);
+}
+[data-theme="blocks"] .card-h {
+  color: #ffe070;
+  text-shadow: 0.12rem 0.12rem 0 #2a2a30;
+}
+[data-theme="blocks"] .date {
+  text-shadow: 0.14rem 0.14rem 0 #2a2a30;
+}
+[data-theme="blocks"] #tabbar {
+  border-top: 3px solid #1a1a1e;
+  box-shadow: inset 0 3px 0 rgba(255, 255, 255, 0.18);
+}
+[data-theme="blocks"] .tabbtn.active {
+  color: #7fd65a;
+  background: rgba(0, 0, 0, 0.25);
+  box-shadow: inset 2px 2px 0 rgba(0, 0, 0, 0.4);
+}

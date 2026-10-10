@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en" data-theme="neon" data-shape="land">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rigside</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/themes.css">
+<link rel="stylesheet" href="css/tabs.css">
+<link rel="stylesheet" href="css/settings.css">
+</head>
+<body>
+
+<canvas id="scene" aria-hidden="true"></canvas>
+<div id="veil" aria-hidden="true"></div>
+
+<header id="titlebar" data-tauri-drag-region>
+  <span class="tb-name" data-tauri-drag-region>Rigside</span>
+  <span class="tb-grow" data-tauri-drag-region></span>
+  <button type="button" class="tb-btn" data-win="min" aria-label="Minimise"></button>
+  <button type="button" class="tb-btn" data-win="max" aria-label="Maximise"></button>
+  <button type="button" class="tb-btn tb-close" data-win="close" aria-label="Close"></button>
+</header>
+
+<main id="viewport">
+  <div id="track">
+
+    <section class="tab" id="tab-home" data-tab="home" aria-label="Home">
+      <div class="home">
+        <div class="h-clock card-free">
+          <div class="clock" id="h-clock"><span class="hh">--</span><span class="colon">:</span><span class="mm">--</span><span class="secs" id="h-secs"></span></div>
+          <div class="date" id="h-date">&nbsp;</div>
+        </div>
+        <div class="card h-wx" id="h-wx">
+          <div class="wx-now">
+            <div class="wx-icon" id="h-wx-icon"></div>
+            <div class="wx-temp" id="h-wx-temp">--°</div>
+            <div class="wx-text">
+              <div class="wx-desc" id="h-wx-desc">&nbsp;</div>
+              <div class="wx-meta" id="h-wx-meta">&nbsp;</div>
+            </div>
+          </div>
+          <div class="wx-rain" id="h-wx-rain"></div>
+          <div class="wx-hours" id="h-wx-hours"></div>
+          <button type="button" class="wx-setup" id="h-wx-setup" hidden>Set your location for weather</button>
+        </div>
+        <div class="card h-np" id="h-np">
+          <div class="np-mini-art" id="h-np-art"></div>
+          <div class="np-mini-text"><b id="h-np-title">Nothing playing</b><span id="h-np-artist"></span></div>
+          <button type="button" class="np-mini-play" id="h-np-play" aria-label="Play or pause"></button>
+        </div>
+        <div class="card h-pc" id="h-pc">
+          <div class="mini-stat" data-k="cpu"><span class="k">CPU</span><b class="v">–</b><i class="bar"><i></i></i><span class="t"></span></div>
+          <div class="mini-stat" data-k="gpu"><span class="k">GPU</span><b class="v">–</b><i class="bar"><i></i></i><span class="t"></span></div>
+          <div class="mini-stat" data-k="ram"><span class="k">RAM</span><b class="v">–</b><i class="bar"><i></i></i><span class="t"></span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tab" id="tab-weather" data-tab="weather" aria-label="Weather">
+      <div class="wt" id="wt">
+        <div class="card wt-now" id="wt-now"></div>
+        <div class="card wt-sky" id="wt-sky"></div>
+        <div class="card wt-chart"><div class="card-h">Next 24 hours <span id="wt-rainline"></span></div><div id="wt-chart" class="chart"></div></div>
+        <div class="card wt-days" id="wt-days"></div>
+        <div class="wt-empty" id="wt-empty" hidden><button type="button" class="btn" data-open-settings="location">Set your location</button></div>
+      </div>
+    </section>
+
+    <section class="tab" id="tab-playing" data-tab="playing" aria-label="Now playing">
+      <div class="np" id="np">
+        <div class="np-views seg" data-noswipe>
+          <button type="button" data-view="player" class="active">Player</button>
+          <button type="button" data-view="viz">Visualiser</button>
+        </div>
+        <div class="np-main" id="np-main">
+          <div class="np-art" id="np-art"><div class="np-art-ph"></div><img id="np-img" alt=""></div>
+          <div class="np-info">
+            <div class="np-app" id="np-app"></div>
+            <div class="np-title" id="np-title">Nothing playing</div>
+            <div class="np-artist" id="np-artist"></div>
+            <div class="np-progress"><div class="np-bar"><i id="np-bar"></i></div>
+              <div class="np-times"><span id="np-pos">0:00</span><span id="np-dur">0:00</span></div></div>
+            <div class="np-controls">
+              <button type="button" class="np-btn" data-do="prev" aria-label="Previous"></button>
+              <button type="button" class="np-btn np-play" data-do="play_pause" aria-label="Play or pause"></button>
+              <button type="button" class="np-btn" data-do="next" aria-label="Next"></button>
+            </div>
+          </div>
+        </div>
+        <div class="np-viz" id="np-viz" hidden>
+          <div class="viz-head"><b id="viz-title">&nbsp;</b><span id="viz-artist"></span>
+            <span class="viz-ctl"><button type="button" class="np-btn small" data-do="prev" aria-label="Previous"></button><button type="button" class="np-btn small np-play" data-do="play_pause" aria-label="Play or pause"></button><button type="button" class="np-btn small" data-do="next" aria-label="Next"></button></span></div>
+          <canvas id="viz-canvas"></canvas>
+          <div class="viz-meters"><span>L</span><i><i id="viz-l"></i></i><span>R</span><i><i id="viz-r"></i></i></div>
+        </div>
+        <div class="np-audio" data-noswipe>
+          <button type="button" class="icon-btn" id="np-mute" aria-label="Mute"></button>
+          <input type="range" min="0" max="100" step="1" id="np-vol" aria-label="Volume">
+          <b class="np-vol-out" id="np-vol-out">–</b>
+          <button type="button" class="icon-btn" id="np-mic" aria-label="Microphone"></button>
+          <button type="button" class="pill" id="np-output"><span class="ico-slot"></span><span id="np-out-label">Output</span></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="tab" id="tab-pc" data-tab="pc" aria-label="PC">
+      <div class="pc" id="pc">
+        <div class="card pc-tile pc-cpu"><div class="card-h">CPU <span class="sub" id="pc-cpu-name"></span></div>
+          <div class="gauge-row"><div class="ring" id="pc-cpu-load"></div><div class="pc-temp" id="pc-cpu-temp"></div></div></div>
+        <div class="card pc-tile pc-gpu"><div class="card-h">GPU <span class="sub" id="pc-gpu-name"></span></div>
+          <div class="gauge-row"><div class="ring" id="pc-gpu-load"></div><div class="pc-temp" id="pc-gpu-temp"></div></div>
+          <div class="pc-kv" id="pc-gpu-kv"></div></div>
+        <div class="card pc-tile pc-ram"><div class="card-h">Memory</div><div class="big-num" id="pc-ram"></div><i class="bar"><i id="pc-ram-bar"></i></i></div>
+        <div class="card pc-tile pc-net"><div class="card-h">Network</div><div class="pc-net-rows" id="pc-net"></div></div>
+        <div class="card pc-tile pc-disks"><div class="card-h">Drives</div><div id="pc-disks" class="disks"></div></div>
+        <div class="card pc-tile pc-misc"><div class="card-h">Uptime</div><div class="big-num" id="pc-uptime"></div>
+          <button type="button" class="pill" id="pc-mic"><span class="ico-slot"></span><span>Mic</span></button></div>
+        <div class="pc-hint" id="pc-hint" hidden></div>
+      </div>
+    </section>
+
+    <section class="tab" id="tab-macros" data-tab="macros" aria-label="Macros">
+      <div class="mc" id="mc">
+        <div class="mc-grid" id="mc-grid"></div>
+        <div class="mc-empty" id="mc-empty" hidden>
+          <p>Buttons that open apps, sites or files, or press a key combination (Discord mute, OBS record, screenshots...).</p>
+          <button type="button" class="btn" id="mc-add-first">Add a macro</button>
+        </div>
+        <button type="button" class="icon-btn mc-edit" id="mc-edit" aria-label="Edit macros"></button>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<nav id="tabbar" role="tablist">
+  <div id="tab-ink"></div>
+  <button class="tabbtn" type="button" role="tab" data-tab="home" data-icon="home"><span class="tablabel">Home</span></button>
+  <button class="tabbtn" type="button" role="tab" data-tab="weather" data-icon="cloud"><span class="tablabel">Weather</span></button>
+  <button class="tabbtn" type="button" role="tab" data-tab="playing" data-icon="music"><span class="tablabel">Playing</span></button>
+  <button class="tabbtn" type="button" role="tab" data-tab="pc" data-icon="cpu"><span class="tablabel">PC</span></button>
+  <button class="tabbtn" type="button" role="tab" data-tab="macros" data-icon="grid"><span class="tablabel">Macros</span></button>
+  <button class="tabbtn gearbtn" type="button" id="open-settings" aria-label="Settings" data-icon="gear"><span class="tablabel">Settings</span></button>
+</nav>
+
+<section id="settings" class="modal" hidden aria-label="Settings">
+  <nav class="s-nav"></nav>
+  <div class="s-body"></div>
+  <button type="button" class="icon-btn s-close" aria-label="Close settings"></button>
+</section>
+
+<section id="mc-editor" class="modal" hidden aria-label="Edit macro"></section>
+
+<div id="toast" hidden></div>
+
+<script src="js/icons.js"></script>
+<script src="js/themes.js"></script>
+<script src="js/app.js"></script>
+<script src="js/weather.js"></script>
+<script src="js/data.js"></script>
+<script src="js/scene.js"></script>
+<script src="js/pixel.js"></script>
+<script src="js/scenes/neon.js"></script>
+<script src="js/scenes/wasteland.js"></script>
+<script src="js/scenes/frostpeak.js"></script>
+<script src="js/scenes/ringworld.js"></script>
+<script src="js/scenes/goldentree.js"></script>
+<script src="js/scenes/overworld.js"></script>
+<script src="js/scenes/deep.js"></script>
+<script src="js/scenes/hellforge.js"></script>
+<script src="js/scenes/lastcity.js"></script>
+<script src="js/scenes/relay.js"></script>
+<script src="js/scenes/starfarer.js"></script>
+<script src="js/scenes/zone.js"></script>
+<script src="js/scenes/sanctum.js"></script>
+<script src="js/scenes/tavern.js"></script>
+<script src="js/scenes/pocket.js"></script>
+<script src="js/scenes/arcade.js"></script>
+<script src="js/scenes/blocks.js"></script>
+<script src="js/home.js"></script>
+<script src="js/weathertab.js"></script>
+<script src="js/playing.js"></script>
+<script src="js/pc.js"></script>
+<script src="js/macros.js"></script>
+<script src="js/settings.js"></script>
+<script>
+  // In a normal browser (not the app), load the fake data so the UI still works.
+  if (!window.__TAURI__) document.write('<script src="js/mock.js"><\/script>');
+</script>
+<script src="js/titlebar.js"></script>
+<script>RS.start();</script>
+</body>
+</html>

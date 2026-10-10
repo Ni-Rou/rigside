@@ -1,0 +1,9 @@
+node_modules/
+*.log
+
+# never commit signing keys
+*.key
+
+# my own notes
+SPEC.md
+archive/

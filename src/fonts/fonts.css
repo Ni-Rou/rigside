@@ -1,0 +1,39 @@
+/* Fonts from Fontsource (OFL, see OFL.txt). Silkscreen's degree sign looks like a plus, so it is left
+   out of its unicode-range and comes from the next font in the stack (Pixelify Sans). */
+@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:block;src:url('inter-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:block;src:url('inter-latin-600-normal.woff2') format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:800;font-display:block;src:url('inter-latin-800-normal.woff2') format('woff2')}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:400;font-display:block;src:url('jetbrains-mono-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:600;font-display:block;src:url('jetbrains-mono-latin-600-normal.woff2') format('woff2')}
+@font-face{font-family:'Rajdhani';font-style:normal;font-weight:500;font-display:block;src:url('rajdhani-latin-500-normal.woff2') format('woff2')}
+@font-face{font-family:'Rajdhani';font-style:normal;font-weight:600;font-display:block;src:url('rajdhani-latin-600-normal.woff2') format('woff2')}
+@font-face{font-family:'Rajdhani';font-style:normal;font-weight:700;font-display:block;src:url('rajdhani-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'Exo 2';font-style:normal;font-weight:400;font-display:block;src:url('exo-2-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Exo 2';font-style:normal;font-weight:600;font-display:block;src:url('exo-2-latin-600-normal.woff2') format('woff2')}
+@font-face{font-family:'Exo 2';font-style:normal;font-weight:800;font-display:block;src:url('exo-2-latin-800-normal.woff2') format('woff2')}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:block;src:url('ibm-plex-mono-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:block;src:url('ibm-plex-mono-latin-500-normal.woff2') format('woff2')}
+@font-face{font-family:'Oswald';font-style:normal;font-weight:400;font-display:block;src:url('oswald-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Oswald';font-style:normal;font-weight:500;font-display:block;src:url('oswald-latin-500-normal.woff2') format('woff2')}
+@font-face{font-family:'Oswald';font-style:normal;font-weight:600;font-display:block;src:url('oswald-latin-600-normal.woff2') format('woff2')}
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:400;font-display:block;src:url('fraunces-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:600;font-display:block;src:url('fraunces-latin-600-normal.woff2') format('woff2')}
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:700;font-display:block;src:url('fraunces-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'Lora';font-style:normal;font-weight:400;font-display:block;src:url('lora-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Lora';font-style:normal;font-weight:600;font-display:block;src:url('lora-latin-600-normal.woff2') format('woff2')}
+@font-face{font-family:'Nunito';font-style:normal;font-weight:400;font-display:block;src:url('nunito-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Nunito';font-style:normal;font-weight:600;font-display:block;src:url('nunito-latin-600-normal.woff2') format('woff2')}
+@font-face{font-family:'Nunito';font-style:normal;font-weight:800;font-display:block;src:url('nunito-latin-800-normal.woff2') format('woff2')}
+@font-face{font-family:'Silkscreen';font-style:normal;font-weight:400;font-display:block;src:url('silkscreen-latin-400-normal.woff2') format('woff2');unicode-range:U+0000-00AF,U+00B1-FFFF}
+@font-face{font-family:'Silkscreen';font-style:normal;font-weight:700;font-display:block;src:url('silkscreen-latin-700-normal.woff2') format('woff2');unicode-range:U+0000-00AF,U+00B1-FFFF}
+@font-face{font-family:'VT323';font-style:normal;font-weight:400;font-display:block;src:url('vt323-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Pixelify Sans';font-style:normal;font-weight:400;font-display:block;src:url('pixelify-sans-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Pixelify Sans';font-style:normal;font-weight:600;font-display:block;src:url('pixelify-sans-latin-600-normal.woff2') format('woff2')}
+@font-face{font-family:'Pixelify Sans';font-style:normal;font-weight:700;font-display:block;src:url('pixelify-sans-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'Share Tech Mono';font-style:normal;font-weight:400;font-display:block;src:url('share-tech-mono-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Chakra Petch';font-style:normal;font-weight:400;font-display:block;src:url('chakra-petch-latin-400-normal.woff2') format('woff2')}
+@font-face{font-family:'Chakra Petch';font-style:normal;font-weight:600;font-display:block;src:url('chakra-petch-latin-600-normal.woff2') format('woff2')}
+@font-face{font-family:'Chakra Petch';font-style:normal;font-weight:700;font-display:block;src:url('chakra-petch-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'Orbitron';font-style:normal;font-weight:500;font-display:block;src:url('orbitron-latin-500-normal.woff2') format('woff2')}
+@font-face{font-family:'Orbitron';font-style:normal;font-weight:700;font-display:block;src:url('orbitron-latin-700-normal.woff2') format('woff2')}
+@font-face{font-family:'Orbitron';font-style:normal;font-weight:900;font-display:block;src:url('orbitron-latin-900-normal.woff2') format('woff2')}

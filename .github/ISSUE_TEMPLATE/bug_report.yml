@@ -1,0 +1,64 @@
+name: Bug report
+description: Something's broken or looks wrong
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting this! If you can, open it from Rigside itself: **Settings → About → Report a problem**
+        fills in your version for you, and **Copy system info** gets the details I ask for further down.
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What went wrong, and what did you expect instead? A screenshot really helps.
+      placeholder: The weather tab just says "Loading weather…" after I set my town.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: How do I make it happen?
+      description: The steps to get there, if you know them.
+      placeholder: |
+        1. Open Settings → Weather
+        2. Search for ...
+        3. ...
+
+  - type: input
+    id: version
+    attributes:
+      label: Rigside version
+      description: It's under Settings → About (or already filled in if you came from Report a problem).
+      placeholder: "0.1.0"
+    validations:
+      required: true
+
+  - type: input
+    id: windows
+    attributes:
+      label: Windows version
+      placeholder: Windows 11 (26100)
+
+  - type: input
+    id: setup
+    attributes:
+      label: Theme and screen
+      description: Which theme you're using and what screen it's on, e.g. a 7" 1024x600 USB screen, a 1920x480 bar, your main monitor.
+      placeholder: Neon City on a 1024x600 USB screen
+
+  - type: textarea
+    id: info
+    attributes:
+      label: System info
+      description: Settings → About → **Copy system info**, then paste it here. It's your hardware, Windows version and audio devices. It doesn't include what you're listening to.
+      render: json
+
+  - type: textarea
+    id: log
+    attributes:
+      label: rigside.log
+      description: Settings → About → **Open log folder**, then drag `rigside.log` in here or paste the last few lines. It only has errors in it.
+      render: text

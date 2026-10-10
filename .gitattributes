@@ -1,0 +1,8 @@
+# Keep LF everywhere (the Windows default would check files out as CRLF)
+* text=auto eol=lf
+*.png binary
+*.ico binary
+*.icns binary
+*.bmp binary
+*.woff2 binary
+*.ttf binary

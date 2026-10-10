@@ -1,0 +1,60 @@
+# Builds a release when you push a version tag, like v0.2.0.
+#
+# It needs two repository secrets (Settings -> Secrets and variables -> Actions):
+#   TAURI_SIGNING_PRIVATE_KEY           what's in the private key file (~/.tauri/rigside.key)
+#   TAURI_SIGNING_PRIVATE_KEY_PASSWORD  its password (if it hasn't got one, make the secret with no value)
+#
+# The version in src-tauri/tauri.conf.json, src-tauri/Cargo.toml and package.json has to match the tag.
+# The release starts as a draft. Nothing gets offered to installed copies until you publish it.
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - run: npm ci
+
+      # The config in the repo has a placeholder, so point the updater at this repo's releases
+      - name: Set update feed
+        shell: bash
+        run: sed -i "s#https://github.com/OWNER/rigside/#https://github.com/${GITHUB_REPOSITORY}/#" src-tauri/tauri.conf.json
+
+      - name: Check the tag matches the app version
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: bash
+        run: |
+          v=$(node -p "require('./src-tauri/tauri.conf.json').version")
+          [ "v$v" = "${GITHUB_REF_NAME}" ] || { echo "tauri.conf.json is $v but the tag is ${GITHUB_REF_NAME}"; exit 1; }
+
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        with:
+          tagName: ${{ github.ref_name }}
+          releaseName: Rigside ${{ github.ref_name }}
+          releaseBody: Grab Rigside_..._x64-setup.exe below and run it. If you already have Rigside installed it will update itself.
+          releaseDraft: true
+          includeUpdaterJson: true

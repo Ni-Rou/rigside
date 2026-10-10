@@ -1,0 +1,15 @@
+{
+  "name": "rigside",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "tauri": "tauri",
+    "format": "prettier --write \"src/**/*.{js,css}\" && cargo fmt --manifest-path src-tauri/Cargo.toml",
+    "check": "prettier --check \"src/**/*.{js,css}\""
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2",
+    "prettier": "3.9.9"
+  }
+}

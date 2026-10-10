@@ -1,0 +1,6 @@
+src/fonts/
+src-tauri/
+node_modules/
+archive/
+*.html
+*.md
