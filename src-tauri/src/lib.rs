@@ -63,6 +63,24 @@ fn close_to_tray(app: &AppHandle) -> bool {
 
 // Settings (the front end owns the schema; Rust reads a few keys)
 
+/// Settings only Rust writes: the overlay's position, and whether the overlay was showing and the
+/// main window was tucked away in the tray, so the next start (after a reboot, say) looks the same.
+const RUST_KEYS: &[&str] = &["overlay_pos", "overlay_open", "main_hidden"];
+
+/// Remember a bit of window state straight away. Windows can kill us at shutdown without warning,
+/// so there's no saving it on the way out.
+fn remember(app: &AppHandle, key: &str, on: bool) {
+    let st = app.state::<AppState>();
+    let mut s = lock(&st.settings);
+    if s.get(key).and_then(Value::as_bool) == Some(on) {
+        return;
+    }
+    if let Some(obj) = s.as_object_mut() {
+        obj.insert(key.into(), json!(on));
+    }
+    let _ = write_settings(&st.path, &s);
+}
+
 #[tauri::command]
 fn get_settings(state: tauri::State<AppState>) -> Value {
     lock(&state.settings).clone()
@@ -76,9 +94,13 @@ fn save_settings(app: AppHandle, state: tauri::State<AppState>, settings: Value)
     let mut settings = settings;
     {
         let mut cur = lock(&state.settings);
-        // Keys only Rust writes (overlay position) survive saves from the front end.
-        if let (Some(new), Some(pos)) = (settings.as_object_mut(), cur.get("overlay_pos").cloned()) {
-            new.insert("overlay_pos".into(), pos);
+        // Keys only Rust writes (where the overlay is, what was open) survive saves from the front end.
+        if let Some(new) = settings.as_object_mut() {
+            for key in RUST_KEYS {
+                if let Some(v) = cur.get(*key).cloned() {
+                    new.insert((*key).into(), v);
+                }
+            }
         }
         write_settings(&state.path, &settings)?;
         *cur = settings;
@@ -338,6 +360,7 @@ fn set_overlay(app: &AppHandle, show: bool, edit: bool) -> Result<bool, String> 
         save_overlay_pos(app, &w);
         w.hide().map_err(|e| e.to_string())?;
     }
+    remember(app, "overlay_open", show);
     let _ = app.emit("overlay-mode", json!({ "show": show, "edit": edit }));
     Ok(show)
 }
@@ -479,6 +502,7 @@ fn show_main(app: &AppHandle) {
         let _ = w.show();
         let _ = w.set_focus();
     }
+    remember(app, "main_hidden", false);
 }
 
 /// `rigside --probe`: print what every data source returns, for bug reports.
@@ -632,16 +656,22 @@ pub fn run() {
                 })
                 .build(app)?;
 
-            let ov_on = {
+            // Open things the way they were left: the overlay if it was showing (or always, with
+            // "Show the overlay when Rigside starts"), and the main window unless it was in the tray.
+            let (ov_on, main_hidden) = {
                 let st = app.state::<AppState>();
                 let s = lock(&st.settings);
-                setting(&s, "overlay_on_start")
-                    .and_then(Value::as_bool)
-                    .unwrap_or(false)
+                let flag = |k| setting(&s, k).and_then(Value::as_bool).unwrap_or(false);
+                (flag("overlay_on_start") || flag("overlay_open"), flag("main_hidden"))
             };
             create_overlay(app.handle())?;
             if ov_on {
                 let _ = set_overlay(app.handle(), true, false);
+            }
+            if !main_hidden || !close_to_tray(app.handle()) {
+                if let Some(w) = app.get_webview_window("main") {
+                    let _ = w.show();
+                }
             }
             Ok(())
         })
@@ -651,6 +681,7 @@ pub fn run() {
                     api.prevent_close();
                     let _ = window.app_handle().save_window_state(state_flags());
                     let _ = window.hide();
+                    remember(window.app_handle(), "main_hidden", true);
                 }
             }
         })
