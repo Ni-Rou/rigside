@@ -1,6 +1,6 @@
 [package]
 name = "rigside"
-version = "0.1.0"
+version = "0.1.1"
 description = "A second screen dashboard for gaming PCs"
 authors = ["Rigside contributors"]
 license = "MIT"
