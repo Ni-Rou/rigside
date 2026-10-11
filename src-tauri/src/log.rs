@@ -17,6 +17,10 @@ static JS_COUNT: AtomicU32 = AtomicU32::new(0);
 
 fn path() -> Option<&'static PathBuf> {
     PATH.get_or_init(|| {
+        // tests feed in broken files on purpose, so keep what they log out of the real one
+        if cfg!(test) {
+            return None;
+        }
         std::env::var_os("APPDATA").map(|d| PathBuf::from(d).join("io.github.rigside").join("rigside.log"))
     })
     .as_ref()
