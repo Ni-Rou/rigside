@@ -60,5 +60,5 @@ body:
     id: log
     attributes:
       label: rigside.log
-      description: Settings → About → **Open log folder**, then drag `rigside.log` in here or paste the last few lines. It only has errors in it.
+      description: Settings → About → **Open log folder**, then drag `rigside.log` in here or paste the last few lines. It's just errors and a line each time Rigside starts.
       render: text

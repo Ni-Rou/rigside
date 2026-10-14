@@ -1,6 +1,6 @@
-//! A small error log in %APPDATA%\io.github.rigside\rigside.log: Rust panics, errors from the UI and
-//! anything else worth knowing later, since the release build has no console. Once it gets past MAX
-//! bytes it rolls over to rigside.log.old.
+//! A small log in %APPDATA%\io.github.rigside\rigside.log: Rust panics, errors from the UI, a line
+//! each time Rigside starts and anything else worth knowing later, since the release build has no
+//! console. Once it gets past MAX bytes it rolls over to rigside.log.old.
 
 use std::fs::OpenOptions;
 use std::io::Write;

@@ -126,6 +126,36 @@ fn save_settings(app: AppHandle, state: tauri::State<AppState>, settings: Value)
     result
 }
 
+/// Read a file, giving it a few seconds if something (an antivirus scan at sign-in, say) has it open.
+fn read_retrying(path: &PathBuf) -> std::io::Result<String> {
+    let mut tries = 0;
+    loop {
+        match std::fs::read_to_string(path) {
+            Err(e) if e.kind() != std::io::ErrorKind::NotFound && tries < 10 => {
+                tries += 1;
+                std::thread::sleep(std::time::Duration::from_millis(300));
+            }
+            other => return other,
+        }
+    }
+}
+
+/// The name of whatever started us (explorer.exe, the startup entry, Windows restarting apps...),
+/// for the start-up line in the log.
+fn started_by() -> String {
+    use sysinfo::{Pid, ProcessesToUpdate, System};
+    let me = Pid::from_u32(std::process::id());
+    let mut sys = System::new();
+    sys.refresh_processes(ProcessesToUpdate::Some(&[me]), true);
+    let Some(parent) = sys.process(me).and_then(|p| p.parent()) else {
+        return "?".into();
+    };
+    sys.refresh_processes(ProcessesToUpdate::Some(&[parent]), true);
+    sys.process(parent)
+        .map(|p| p.name().to_string_lossy().into_owned())
+        .unwrap_or_else(|| "?".into())
+}
+
 fn write_settings(path: &PathBuf, settings: &Value) -> Result<(), String> {
     let text = serde_json::to_string_pretty(settings).map_err(|e| e.to_string())?;
     if let Some(dir) = path.parent() {
@@ -140,8 +170,16 @@ fn write_settings(path: &PathBuf, settings: &Value) -> Result<(), String> {
 /// Read settings.json. Copes with a byte-order mark (Notepad and PowerShell add one). If the file is
 /// there but isn't valid, it's kept as settings.json.bad so the next save doesn't quietly wipe it.
 fn load_settings(path: &PathBuf) -> Value {
-    let Ok(text) = std::fs::read_to_string(path) else {
-        return json!({});
+    let text = match read_retrying(path) {
+        Ok(t) => t,
+        Err(e) if e.kind() == std::io::ErrorKind::NotFound => return json!({}), // first run
+        Err(e) => {
+            log::write(
+                "settings",
+                &format!("couldn't open {}: {e}; starting with defaults", path.display()),
+            );
+            return json!({});
+        }
     };
     match serde_json::from_str::<Value>(text.trim_start_matches('\u{feff}')) {
         Ok(v) if v.is_object() => v,
@@ -601,7 +639,13 @@ pub fn run() {
     }
     tauri::Builder::default()
         // Has to be first: launching it again just brings the running one to the front.
-        .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| show_main(app)))
+        .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
+            log::write(
+                "start",
+                "Rigside was started again while running, so the main window was brought up",
+            );
+            show_main(app)
+        }))
         .plugin(
             tauri_plugin_window_state::Builder::default()
                 .with_state_flags(state_flags())
@@ -668,11 +712,32 @@ pub fn run() {
             if ov_on {
                 let _ = set_overlay(app.handle(), true, false);
             }
-            if !main_hidden || !close_to_tray(app.handle()) {
+            let show = !main_hidden || !close_to_tray(app.handle());
+            if show {
                 if let Some(w) = app.get_webview_window("main") {
                     let _ = w.show();
                 }
             }
+
+            // If "Start with Windows" is on but points at another copy (an old install, a moved one),
+            // point it at this one. Not from a build folder, so trying out a build doesn't take it over.
+            let exe = std::env::current_exe().unwrap_or_default();
+            let build = exe.components().any(|c| c.as_os_str() == "target");
+            let autolaunch = app.autolaunch();
+            if !build && autolaunch.is_enabled().unwrap_or(false) {
+                let _ = autolaunch.enable();
+            }
+
+            log::write(
+                "start",
+                &format!(
+                    "{} started by {}: overlay {}, main window {}",
+                    app.package_info().version,
+                    started_by(),
+                    if ov_on { "shown" } else { "hidden" },
+                    if show { "shown" } else { "in the tray" }
+                ),
+            );
             Ok(())
         })
         .on_window_event(|window, event| {
