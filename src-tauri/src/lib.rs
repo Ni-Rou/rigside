@@ -702,15 +702,23 @@ pub fn run() {
 
             // Open things the way they were left: the overlay if it was showing (or always, with
             // "Show the overlay when Rigside starts"), and the main window unless it was in the tray.
-            let (ov_on, main_hidden) = {
+            let (ov_on, main_hidden, keys) = {
                 let st = app.state::<AppState>();
                 let s = lock(&st.settings);
                 let flag = |k| setting(&s, k).and_then(Value::as_bool).unwrap_or(false);
-                (flag("overlay_on_start") || flag("overlay_open"), flag("main_hidden"))
+                let keys = s.as_object().map_or(0, |o| o.len());
+                (
+                    flag("overlay_on_start") || flag("overlay_open"),
+                    flag("main_hidden"),
+                    keys,
+                )
             };
             create_overlay(app.handle())?;
+            let mut overlay_err = String::new();
             if ov_on {
-                let _ = set_overlay(app.handle(), true, false);
+                if let Err(e) = set_overlay(app.handle(), true, false) {
+                    overlay_err = format!(" (couldn't show it: {e})");
+                }
             }
             let show = !main_hidden || !close_to_tray(app.handle());
             if show {
@@ -731,7 +739,7 @@ pub fn run() {
             log::write(
                 "start",
                 &format!(
-                    "{} started by {}: overlay {}, main window {}",
+                    "{} started by {}, {keys} settings read: overlay {}{overlay_err}, main window {}",
                     app.package_info().version,
                     started_by(),
                     if ov_on { "shown" } else { "hidden" },
